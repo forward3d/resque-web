@@ -17,12 +17,7 @@ module ResqueWeb
     private
 
     def set_redis
-      warn 'request----'
-      warn request.inspect
-      warn request.env.inspect
-      warn REDIS_HOSTS
-      warn 'redis hosts'
-      Resque.redis = ENV['RAILS_RESQUE_REDIS'] || REDIS_HOSTS['hosts'][request.env['REQUEST_PATH'].split('/')[1]]
+      Resque.redis = ENV['RAILS_RESQUE_REDIS'] || REDIS_HOSTS['hosts'][request.env['REQUEST_URI'].split('/')[1]]
     end
 
     def authorize

@@ -18,7 +18,7 @@ module ResqueWeb
     end
 
     def url_helper(path_link)
-      path_link.gsub(/(#{REDIS_HOSTS['hosts'].keys.join('|')})/,  request.env['REQUEST_PATH'].split('/')[1])
+      path_link.gsub(/(#{REDIS_HOSTS['hosts'].keys.join('|')})/,  request.env['REQUEST_URI'].split('/')[1])
     end
 
     def hosts
