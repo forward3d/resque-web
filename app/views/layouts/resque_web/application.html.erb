@@ -21,13 +21,19 @@
         <span class="icon-bar"></span>
       </a>
       <%= image_tag "resque_web/lifebuoy.png", class: 'logo' %>
-      <%= link_to "Resque.", ResqueWeb::Engine.app.url_helpers.root_path, :class => "brand" %>
-      <div class="nav-collapse collapse">
+      <%= link_to "Resque.", url_helper(ResqueWeb::Engine.app.url_helpers.root_path), :class => "brand" %>
+      <div class="nav-collapse collapse row-fluid">
         <ul class="nav">
           <% tabs.each do |tab_name,path| %>
             <%= tab tab_name,path %>
           <% end %>
         </ul>
+        </div>
+        <div class="row-fluid">
+        <ul class="nav">
+          <% hosts.each do |host| %>
+            <%= tab host, host_path(host) %>
+          <% end %>
       </div>
     </div>
   </div>

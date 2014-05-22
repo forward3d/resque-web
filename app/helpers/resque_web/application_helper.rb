@@ -4,17 +4,29 @@ module ResqueWeb
     PER_PAGE = 20
 
     def tabs
-      t = {'overview' => ResqueWeb::Engine.app.url_helpers.overview_path,
-       'working'  => ResqueWeb::Engine.app.url_helpers.working_index_path,
-       'failures' => ResqueWeb::Engine.app.url_helpers.failures_path,
-       'queues' => ResqueWeb::Engine.app.url_helpers.queues_path,
-       'workers' => ResqueWeb::Engine.app.url_helpers.workers_path,
-       'stats' => ResqueWeb::Engine.app.url_helpers.stats_path
+       t =  {'overview' => url_helper(ResqueWeb::Engine.app.url_helpers.overview_path),
+             'working'  => url_helper(ResqueWeb::Engine.app.url_helpers.working_index_path),
+             'failures' => url_helper(ResqueWeb::Engine.app.url_helpers.failures_path),
+             'queues'   => url_helper(ResqueWeb::Engine.app.url_helpers.queues_path),
+             'workers'  => url_helper(ResqueWeb::Engine.app.url_helpers.workers_path),
+             'stats'    => url_helper(ResqueWeb::Engine.app.url_helpers.stats_path)
       }
       ResqueWeb::Plugins.plugins.each do |p|
         p.tabs.each { |tab| t.merge!(tab) }
       end
       t
+    end
+
+    def url_helper(path_link)
+      path_link.gsub(/(#{REDIS_HOSTS['hosts'].keys.join('|')})/,  request.env['REQUEST_PATH'].split('/')[1])
+    end
+
+    def hosts
+      REDIS_HOSTS['hosts'].keys
+    end
+
+    def host_path(host)
+      ResqueWeb::Engine.app.url_helpers.root_path.gsub(/(#{REDIS_HOSTS['hosts'].keys.join('|')})/,  host)
     end
 
     def tab(name,path)
