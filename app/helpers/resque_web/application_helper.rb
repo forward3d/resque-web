@@ -22,7 +22,7 @@ module ResqueWeb
     end
 
     def hosts
-      REDIS_HOSTS['hosts'].keys
+      REDIS_HOSTS['hosts'].keys.sort
     end
 
     def host_path(host)
